@@ -2,7 +2,8 @@ let basket = []
 class BasketModel {
     constructor() {
         this.basketItemsKey = 'basketItems';
-        this.apiUrl = 'https://dummyjson.com/products'; // DummyJSON API endpoint
+        this.apiUrl = 'https://dummyjson.com/products';
+        this.apiUrl = 'https://dummyjson.com/categories'; // DummyJSON API endpoint
     }
 
 // Hent data fra localStorage
