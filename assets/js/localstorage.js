@@ -8,8 +8,25 @@ class BasketModel {
 }
 // Hent data fra localStorage
 function getBasketItems() {
+try {
     const items = localStorage.getItem(this.basketItemsKey);
-    return items ? JSON.parse(items) : [];
+    if (!items) {
+        console.warn('No items found in localStorage');
+        return [];
+    }
+
+    const parsedItems = JSON.parse(items);
+
+    if (!Array.isArray(parsedItems)) {
+        console.error('Invalid data format in localStorage');
+        return [];
+    }
+
+    return parsedItems;
+} catch (error) {
+    console.error('Error parsing localStorage data:', error);
+    return [];
+}
 }
 
 // Gem data i localStorage
