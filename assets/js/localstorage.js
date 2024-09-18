@@ -12,8 +12,12 @@ function getBasketItems() {
     return items ? JSON.parse(items) : [];
 }
 
-
 // Gem data i localStorage
 function saveBasketItems(items) {
     localStorage.setItem(this.basketItemsKey, JSON.stringify(items));
 }
+
+window.onload = function() {
+    getBasketItems();
+    saveBasketItems();
+};
