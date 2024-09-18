@@ -5,15 +5,15 @@ class BasketModel {
         this.apiUrl = 'https://dummyjson.com/products';
         this.apiUrl = 'https://dummyjson.com/categories'; // DummyJSON API endpoint
     }
-
+}
 // Hent data fra localStorage
-getBasketItems() {
+function getBasketItems() {
     const items = localStorage.getItem(this.basketItemsKey);
     return items ? JSON.parse(items) : [];
 }
 
+
 // Gem data i localStorage
-saveBasketItems(items) {
+function saveBasketItems(items) {
     localStorage.setItem(this.basketItemsKey, JSON.stringify(items));
-}
 }
