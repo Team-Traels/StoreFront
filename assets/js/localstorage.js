@@ -8,11 +8,12 @@ class BasketModel {
 
 // Hent data fra localStorage
 getBasketItems() {
-    const items = localStorage.getItem(this.basket);
+    const items = localStorage.getItem(this.basketItemsKey);
     return items ? JSON.parse(items) : [];
 }
 
 // Gem data i localStorage
 saveBasketItems(items) {
-    localStorage.setItem(this.basket, JSON.stringify(items));
+    localStorage.setItem(this.basketItemsKey, JSON.stringify(items));
+}
 }
