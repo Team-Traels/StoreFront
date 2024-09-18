@@ -63,6 +63,9 @@ function getProducts() {
     console.log('Nej, vi har ikke hvad du skal bruge!');
   }
 
-  getProducts();
-  getCategories();
+ // Køre funktionen når siden loader
+window.onload = function() {
+    getProducts();
+    getCategories();
+};
   // --------------------------------------------------------------
