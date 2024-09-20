@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="da">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShopHUB</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="assets/js/app.js" defer></script>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="Assets/js/script.js" defer></script>
 </head>
+
 <body>
     <header>
         <!-- Header-Top -->
@@ -16,21 +20,30 @@
             <h2 id="logo">ShopHUB</h2>
             <input id="search" type="search" placeholder="Søg">
             <div id="basket-section">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <div id="indicator-section">
-                <p id="indicator-number"></p>
+                <i class="fa-solid fa-cart-shopping"></i>
+                <div id="indicator-section">
+                    <p id="indicator-number"></p>
+                </div>
             </div>
-             </div>
         </div>
         <!-- Header-Bottom -->
-        <div id="header-bottom"> 
-            <ul id="fashion">Fashion</ul>
-            <ul id="pleje">Pleje</ul>
-            <ul id="elektronik">Elektronik</ul>
-            <ul id="alt-til-hjemmet">Alt Til Hjemmet</ul>
-            <ul id="sport">Sport</ul>
-            <ul id="transport">Transport</ul>
-            <ul id="dagligvare">Dagligvare</ul>
+        <div id="header-bottom">
+            <ul>
+                <ul id="fashion" class="header-bottom-hover">
+                    <p>Fashion</p>
+                    <ul class="header-bottom-menu">
+                        <li>Test1</li>
+                        <li>Test2</li>
+                        <li>Test3</li>
+                    </ul>
+                </ul>
+                <ul id="pleje">Pleje</ul>
+                <ul id="elektronik">Elektronik</ul>
+                <ul id="alt-til-hjemmet">Alt Til Hjemmet</ul>
+                <ul id="sport">Sport</ul>
+                <ul id="transport">Transport</ul>
+                <ul id="dagligvare">Dagligvare</ul>
+            </ul>
         </div>
     </header>
 
@@ -38,5 +51,5 @@
 
     <footer></footer>
 </body>
-</html>
 
+</html>
