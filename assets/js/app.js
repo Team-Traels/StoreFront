@@ -6,12 +6,24 @@ function saveLocalData() {
     localStorage.setItem('data', saveableData)
 }
 
-const logo = document.getElementById('logo')
-let mainPageLoaded = true
+const logoDocument = document.getElementById('logo')
+const basketDocument = document.getElementById('basket')
 
-logo.addEventListener('click', (e) => {
+let mainPageLoaded = true
+let basketPageLoaded = false
+
+logoDocument.addEventListener('click', (e) => {
     if (!mainPageLoaded) {
         buildMainPage()
         mainPageLoaded = true;
+        basketPageLoaded = false;
+    }
+})
+
+basketDocument.addEventListener('click', (e) => {
+    if (!basketPageLoaded) {
+        buildMainPage()
+        basketPageLoaded = true;
+        mainPageLoaded = false;
     }
 })
