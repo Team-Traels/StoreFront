@@ -27,3 +27,8 @@ basketDocument.addEventListener('click', (e) => {
         mainPageLoaded = false;
     }
 })
+
+
+function productCallback(productID) {
+     bygProductPage(productID)
+}
