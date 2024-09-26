@@ -1,6 +1,14 @@
 let basket = []
 let productsFromFetch = []
 
+// FETCH LOCAL DATA
+function getLocalData() {
+    let localData = localStorage.getItem('data')
+    if (localData) {
+        basket = JSON.parse(localData)
+    }
+}
+
 // FETCH PRODUCTS
 function getProducts() {
     // Fetcher products
@@ -216,4 +224,5 @@ function removeItemFromBasket(productID) {
 // Køre funktionen når siden loader
 window.addEventListener('load', (e) => {
     getProducts();
+    getLocalData();
 });
