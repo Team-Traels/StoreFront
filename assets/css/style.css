@@ -14,7 +14,6 @@
     font-weight: 400;
 }
 
-
 a{
     text-decoration: none;
     color: #fdfdfd;
@@ -192,4 +191,22 @@ footer {
 .featured-product button:active {
   box-shadow: none;
   transform: translateY(0);
+}
+
+#indicator-section {
+    position: absolute;
+    top: 0.5rem;
+    right: 1.5rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    background-color: red;
+    border-radius: 100rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#basket-items{
+    background-color: red;
+    display: block;
 }
