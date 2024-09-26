@@ -1,6 +1,14 @@
 let basket = []
 let productsFromFetch = []
 
+// FETCH LOCAL DATA
+function getLocalData() {
+    let localData = localStorage.getItem('data')
+    if (localData) {
+        basket = JSON.parse(localData)
+    }
+}
+
 // FETCH PRODUCTS
 function getProducts() {
     // Fetcher products
@@ -44,7 +52,7 @@ function receivedProducts(products) {
     if (!firstTimePageLoaded) {
         buildMainPage(products)
         firstTimePageLoaded = true;
-
+        basketIndicatorUpdate()
     }
 }
 
@@ -52,11 +60,13 @@ function receivedProducts(products) {
 function saveLocalData() {
     let saveableData = JSON.stringify(basket)
     localStorage.setItem('data', saveableData)
+    basketIndicatorUpdate()
 }
 
 const logoDocument = document.getElementById('logo')
 const mainContent = document.getElementById('content')
 const basketContainer = document.getElementById('basket-section')
+const basketIndicator = document.getElementById('indicator-number')
 
 let mainPageLoaded = true
 let basketPageLoaded = false
@@ -215,7 +225,15 @@ function removeItemFromBasket(productID) {
     bygBasketPage()
 }
 
+function basketIndicatorUpdate() {
+    let amount = 0
+    basketAmount = basket.forEach(item => {
+        amount += item.amount
+    })
+    basketIndicator.innerHTML = amount
+}
 // Køre funktionen når siden loader
 window.addEventListener('load', (e) => {
     getProducts();
+    getLocalData();
 });
