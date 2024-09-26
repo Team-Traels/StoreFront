@@ -1,23 +1,45 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+*{
     margin: 0;
     padding: 0;
+    line-height: 1.5;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+}
+
+
+a{
+    text-decoration: none;
+    color: #fdfdfd;
 }
 
 #header-top {
     width: 100%;
+    height: 3.5rem;
     display: flex;
+    background-color: #2D2D2D;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #header-bottom {
-    width: 80%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: auto;
+    background-color: #3D3D3D;
 }
 
 #header-bottom>ul {
-    color: black;
+    color: white;
     list-style-type: none;
     position: relative;
     height: 40px;
@@ -28,6 +50,8 @@
     width: 100%;
     justify-content: space-between;
     line-height: 40px;
+    margin-left: 5rem;
+    margin-right: 5rem;
 }
 
 .header-bottom-menu {
@@ -64,4 +88,108 @@
 
 .header-bottom-hover {
     height: 100%;
+}
+
+#logo {
+    color: white;
+    font-size: 2rem;
+    margin-left: 2rem;
+    display: flex;
+}
+
+#logo span{
+    color: #FFB800;
+}
+
+#search {
+    width: 60rem;
+    height: 60%;
+    border-radius: 100rem;
+}
+
+#basket-section {
+    margin-right: 2rem;
+}
+
+#basket-container {
+    color: white;
+    font-size: 2rem;
+}
+
+footer {
+    width: 100%;
+    height: 5rem;
+    background-color: #2D2D2D;
+    position: fixed;
+    bottom: 0;
+}
+
+.featured-product {
+    width: 100%;
+    height: 35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    text-align: center;
+}
+
+.featured-product img{
+    width: 20rem;
+    height: 20rem;
+}
+
+.featured-product h2{
+    font-size: 3.6rem;
+}
+
+.featured-product p{
+    font-size: 2rem;
+    color: red;
+    font-weight: bold;
+}
+
+/* CSS */
+.featured-product button {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #1A1A1A;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #3B3B3B;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 60px;
+  min-width: 0;
+  outline: none;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  will-change: transform;
+}
+
+.featured-product button:disabled {
+  pointer-events: none;
+}
+
+.featured-product button:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.featured-product button:active {
+  box-shadow: none;
+  transform: translateY(0);
 }

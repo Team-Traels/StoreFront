@@ -92,9 +92,11 @@ function buildMainPage(products) {
     let featuredProductHTML = `
     <div class="featured-product">
         <img src="${featuredProduct.thumbnail}" alt="${featuredProduct.title}">
+        <section>
         <h2>${featuredProduct.title}</h2>
         <p>${featuredProduct.price}$</p>
         <button onclick="productCallback(${featuredProduct.id})">Læs mere</button>
+        </section>
         </div>`
     mainContent.innerHTML = featuredProductHTML
 
