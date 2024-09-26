@@ -96,6 +96,24 @@ function buildMainPage(products) {
     
 }
 
+function bygProductPage(productID) {
+    let product = products.find(product => product.id == productID)
+    mainContent.innerHTML = ''
+    let productHTML = `
+    <div class="product">
+        <img src="${product.thumbnail}" alt="${product.title}"> 
+        <div> 
+        <img src="${product.thumbnail}" alt="${product.title}"> 
+        <img src="${product.thumbnail}" alt="${product.title}"> 
+        <img src="${product.thumbnail}" alt="${product.title}"> 
+        </div>
+        <h2>${product.title}</h2>
+        <p>${product.price}$</p>
+        <p>${product.description}</p>
+        <button onclick="addToBasket(${product.id})">Læg i kurv</button>`
+    mainContent.innerHTML = productHTML
+}
+
 
 // Køre funktionen når siden loader
 window.addEventListener('load', (e) => {
