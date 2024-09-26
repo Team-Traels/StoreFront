@@ -20,7 +20,7 @@ function getProducts() {
                 // Hvis data er korrekt, giv det vidre til receivedProducts
                 receivedProducts(data.products);
                 products = data.products
-              
+
 
             } else {
                 // Hvis dataformatet er forkert, giv en error!
@@ -38,11 +38,11 @@ function errorData() {
     console.log('Nej, vi har ikke hvad du skal bruge!');
 }
 function receivedProducts(products) {
-    
+
     if (!firstTimePageLoaded) {
         buildMainPage(products)
         firstTimePageLoaded = true;
-        
+
     }
 }
 
@@ -92,8 +92,7 @@ function buildMainPage(products) {
         <p>${featuredProduct.price}$</p>
         <button onclick="productCallback(${featuredProduct.id})">Læs mere</button>`
     mainContent.innerHTML = featuredProductHTML
-    console.log(products);
-    
+
 }
 
 function bygProductPage(productID) {
@@ -112,8 +111,28 @@ function bygProductPage(productID) {
         <p>${product.description}</p>
         <button onclick="addToBasket(${product.id})">Læg i kurv</button>`
     mainContent.innerHTML = productHTML
+    mainPageLoaded = false
+    basketPageLoaded = false
 }
 
+function addToBasket(productID) {
+    if (basket.length == 0) {
+        let product = products.find(product => product.id == productID)
+        product.amount = 1
+        basket.push(product)
+    } else {
+        let product = products.find(product => product.id == productID)
+        let productInBasket = basket.find(product => product.id == productID)
+        if (productInBasket) {
+            productInBasket.amount++
+        } else {
+            basket.push(product)
+        }
+    }
+
+    saveLocalData()
+    console.log(basket)
+}
 
 // Køre funktionen når siden loader
 window.addEventListener('load', (e) => {
