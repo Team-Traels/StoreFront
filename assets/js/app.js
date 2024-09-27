@@ -1,5 +1,45 @@
 let basket = []
 let productsFromFetch = []
+let categoryList = []
+
+let myCategoryData = [
+    {
+        name: 'fashion',
+        categories: [],
+        KeyWords: ['woman', 'womens', 'dresses', 'man', 'mens', "sunglasses", "tops"]
+    },
+    {
+        name: 'pleje',
+        categories: [],
+        KeyWords: ['beauty', "fragrances", "skin-care"]
+    },
+    {
+        name: 'electronics',
+        categories: [],
+        KeyWords: ['phone', 'laptop', 'mobile', 'tablets']
+    },
+    {
+        name: 'altTilHjemmet',
+        categories: [],
+        KeyWords: ["furniture", "home-decoration", "kitchen-accessories"]
+    },
+    {
+        name: 'sport',
+        categories: [],
+        KeyWords: ["sport"]
+    },
+    {
+        name: 'transport',
+        categories: [],
+        KeyWords: ["motorcycle", "vehicle"]
+    },
+    {
+        name: 'dagligvare',
+        categories: [],
+        KeyWords: ['groceries']
+    },
+    
+]
 
 // FETCH LOCAL DATA
 function getLocalData() {
@@ -44,6 +84,35 @@ function getProducts() {
         });
 }
 
+function getCategories() {
+    fetch('https://dummyjson.com/products/category-list')
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Error: Fejlede I at hente kategorier!');
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            // Tjekker om resonsen er I det rigtige format
+            if (Array.isArray(data)) {
+                categoryList = data
+                // sortIntocategories()
+                receivedCategories(data);
+            } else {
+                throw new Error('Error: Forkert data format');
+            }
+        })
+        .catch(function (error) {
+            console.error(error.message);
+            errorData();
+        });
+}
+
+function receivedCategories(categories) {
+    sortIntocategories()
+}
+
+
 function errorData() {
     console.log('Nej, vi har ikke hvad du skal bruge!');
 }
@@ -67,6 +136,7 @@ const logoDocument = document.getElementById('logo')
 const mainContent = document.getElementById('content')
 const basketContainer = document.getElementById('basket-section')
 const basketIndicator = document.getElementById('indicator-number')
+const myCategoryContainer = document.getElementById('navCategories')
 
 let mainPageLoaded = true
 let basketPageLoaded = false
@@ -160,6 +230,61 @@ function addToBasket(productID) {
     saveLocalData()
 }
 
+function sortIntocategories() {
+
+    // looper gennem alle kategori navne
+    categoryList.forEach((myCatName) => {
+
+        let foundFlag = false
+        myCategoryData.forEach((mycategory, index) => {
+
+
+            if (!foundFlag && checkCategory(myCatName, myCategoryData[index].KeyWords)) {
+                mycategory.categories.push(myCatName)
+                foundFlag = true
+            }
+        })
+
+        if (!foundFlag) {
+            myCategoryData[myCategoryData.length - 1].categories.push(myCatName)
+        }
+    })
+
+    buildCategories()
+}
+
+function checkCategory(myCategory, checkArray) {
+
+    let found = checkArray.some((checkWord) => {
+        return myCategory.includes(checkWord)
+    })
+    return found
+}
+
+function buildCategories() {
+        let categoryHTML = ''
+    myCategoryData.forEach((category) => {
+         categoryHTML  += `
+        <ul class="category navCategories">
+        <li class="nav-item">
+            <p>${category.name}</p>
+            <ul class="dropdown"><p>`
+
+            category.categories.forEach((cat) => {
+                categoryHTML += `<li>${cat}</li>`
+            })
+
+            categoryHTML += `</p></ul>
+            </li>
+        </ul>`
+
+        myCategoryContainer.innerHTML = categoryHTML
+        })
+
+
+
+}
+
 function bygBasketPage() {
     let total = 0
     console.log(basket);
@@ -167,8 +292,8 @@ function bygBasketPage() {
     mainContent.innerHTML = ''
     basketHTML = `
      <div class="basket">
-        <h2>Din kurv</h2>
         <div id="basket-items"></div>
+        <div id="total">
         <h3>Total: ${basket.reduce((acc, item) => acc + item.price * item.amount, 0).toFixed(2)}$</h3>
         <button onclick="buy()">Køb</button>
         <button onclick="emptyBasket()">Tøm kurv</button>`
@@ -191,11 +316,13 @@ function bygBasketPage() {
         basketItem.innerHTML = `
             <img src="${item.thumbnail}" alt="${item.title}">
             <h4>${item.title}</h4>
-            <p>Price: ${item.price.toFixed(2)}</p>
+            <p id="price">Price: ${item.price.toFixed(2)}</p>
+            <div class="amount-container">
             <button data-id="${item.id}" onclick="amountIncreased(${item.id})" class="amount-increase"><</button>
-            <p>${item.amount}</p>
+            <p id="amount">${item.amount}</p>
             <button data-id="${item.id}" onclick="amountDecreased(${item.id})" class="amount-decrease">></button>
-            <button data-id="${item.id}" onclick="removeItemFromBasket(${item.id})" class="remove-item">Remove</button>
+            </div>
+            <button data-id="${item.id}" onclick="removeItemFromBasket(${item.id})" class="remove-item">Slet</button>
         `;
         itemsInBasket.appendChild(basketItem);
 
@@ -241,8 +368,10 @@ function basketIndicatorUpdate() {
     })
     basketIndicator.innerHTML = amount
 }
+
 // Køre funktionen når siden loader
 window.addEventListener('load', (e) => {
     getProducts();
     getLocalData();
+    getCategories();
 });
