@@ -210,3 +210,46 @@ footer {
     background-color: red;
     display: block;
 }
+
+.product-site{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+}
+
+.product{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product h1{
+    display: flex;
+    justify-content: center;
+    font-size: 5rem;
+}
+
+.product figure img{
+    display: block;
+}
+
+.product figure:first-of-type img{
+    width: 30rem;
+}
+
+.product figure:last-of-type img{
+    width: 15rem;
+}
+
+.product figure:last-of-type{
+    display: flex;
+    flex-direction: row;
+}
+
+.product-site figcaption:last-of-type{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

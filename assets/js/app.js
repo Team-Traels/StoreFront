@@ -16,7 +16,7 @@ function getProducts() {
         .then(function (response) {
             // Tjekker om responsen er ok
             // console.log(response.json());
-            
+
             if (!response.ok) {
                 // Hvis ikke, giver en fejl
                 throw new Error('Error: Fejlede I at hente produkter');
@@ -95,7 +95,7 @@ function productCallback(productID) {
 }
 
 function buildMainPage(products) {
-    
+
     let randomNumber = Math.round(Math.random() * productsFromFetch.length)
     let featuredProduct = productsFromFetch[randomNumber]
     mainContent.innerHTML = ''
@@ -116,17 +116,26 @@ function bygProductPage(productID) {
     let product = productsFromFetch.find(product => product.id == productID)
     mainContent.innerHTML = ''
     let productHTML = `
-    <div class="product">
-        <img src="${product.thumbnail}" alt="${product.title}"> 
-        <div> 
-        <img src="${product.thumbnail}" alt="${product.title}"> 
-        <img src="${product.thumbnail}" alt="${product.title}"> 
-        <img src="${product.thumbnail}" alt="${product.title}"> 
+    <div class="product-site">
+        <div class="product">
+            <figure>
+                <img src="${product.thumbnail}" alt="${product.title}">  
+            </figure>
+            <figure>
+                <img src="${product.thumbnail}" alt="${product.title}"> 
+                <img src="${product.thumbnail}" alt="${product.title}"> 
+                <img src="${product.thumbnail}" alt="${product.title}">
+            </figure>
+            <div>
+                <h1>${product.price}$</h1>
+            </div>
         </div>
-        <h2>${product.title}</h2>
-        <p>${product.price}$</p>
-        <p>${product.description}</p>
-        <button onclick="addToBasket(${product.id})">Læg i kurv</button>`
+            <figcaption class="product-info">
+                <h2>${product.title}</h2>
+                <p>${product.description}</p>
+                <button onclick="addToBasket(${product.id})">Læg i kurv</button>
+            </figcaption>
+    </div>`
     mainContent.innerHTML = productHTML
     mainPageLoaded = false
     basketPageLoaded = false
@@ -154,7 +163,7 @@ function addToBasket(productID) {
 function bygBasketPage() {
     let total = 0
     console.log(basket);
-    
+
     mainContent.innerHTML = ''
     basketHTML = `
      <div class="basket">
@@ -163,19 +172,19 @@ function bygBasketPage() {
         <h3>Total: ${basket.reduce((acc, item) => acc + item.price * item.amount, 0).toFixed(2)}$</h3>
         <button onclick="buy()">Køb</button>
         <button onclick="emptyBasket()">Tøm kurv</button>`
-        basket.forEach(item => {
-            console.log(`item.price: ${item.price}, item.amount: ${item.amount}`);
-            total += item.price * item.amount;
-        });
-        
-        
+    basket.forEach(item => {
+        console.log(`item.price: ${item.price}, item.amount: ${item.amount}`);
+        total += item.price * item.amount;
+    });
+
+
     mainContent.innerHTML = basketHTML
     mainPageLoaded = false
     basketPageLoaded = true
 
     const itemsInBasket = document.getElementById('basket-items');
-    
-    
+
+
     let basketItems = basket.forEach(item => {
         const basketItem = document.createElement('div');
         basketItem.classList.add('basket-item');
@@ -189,7 +198,7 @@ function bygBasketPage() {
             <button data-id="${item.id}" onclick="removeItemFromBasket(${item.id})" class="remove-item">Remove</button>
         `;
         itemsInBasket.appendChild(basketItem);
-    
+
     })
 }
 
@@ -207,7 +216,7 @@ function amountIncreased(productID) {
 }
 
 function amountDecreased(productID) {
-    
+
     let product = basket.find(product => product.id == productID)
     product.amount--
     if (product.amount == 0) {
