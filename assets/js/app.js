@@ -217,17 +217,26 @@ function bygProductPage(productID) {
     let product = productsFromFetch.find(product => product.id == productID)
     mainContent.innerHTML = ''
     let productHTML = `
-    <div class="product">
-        <img src="${product.thumbnail}" alt="${product.title}"> 
-        <div> 
-        <img src="${product.thumbnail}" alt="${product.title}"> 
-        <img src="${product.thumbnail}" alt="${product.title}"> 
-        <img src="${product.thumbnail}" alt="${product.title}"> 
+    <div class="product-site">
+        <div class="product">
+            <figure>
+                <img src="${product.thumbnail}" alt="${product.title}">  
+            </figure>
+            <figure>
+                <img src="${product.thumbnail}" alt="${product.title}"> 
+                <img src="${product.thumbnail}" alt="${product.title}"> 
+                <img src="${product.thumbnail}" alt="${product.title}">
+            </figure>
+            <div>
+                <h1>${product.price}$</h1>
+            </div>
         </div>
-        <h2>${product.title}</h2>
-        <p>${product.price}$</p>
-        <p>${product.description}</p>
-        <button onclick="addToBasket(${product.id})">Læg i kurv</button>`
+            <figcaption class="product-info">
+                <h2>${product.title}</h2>
+                <p>${product.description}</p>
+                <button onclick="addToBasket(${product.id})">Læg i kurv</button>
+            </figcaption>
+    </div>`
     mainContent.innerHTML = productHTML
     mainPageLoaded = false
     basketPageLoaded = false
@@ -334,12 +343,13 @@ function bygBasketPage() {
     mainContent.innerHTML = ''
     basketHTML = `
      <div class="basket">
-        <h2>Din kurv</h2>
         <div id="basket-items"></div>
+        <div id="total">
         <h3>Total: ${basket.reduce((acc, item) => acc + item.price * item.amount, 0).toFixed(2)}$</h3>
         <button onclick="buy()">Køb</button>
         <button onclick="emptyBasket()">Tøm kurv</button>`
     basket.forEach(item => {
+        console.log(`item.price: ${item.price}, item.amount: ${item.amount}`);
         total += item.price * item.amount;
     });
 
@@ -357,11 +367,13 @@ function bygBasketPage() {
         basketItem.innerHTML = `
             <img src="${item.thumbnail}" alt="${item.title}">
             <h4>${item.title}</h4>
-            <p>Price: ${item.price.toFixed(2)}</p>
+            <p id="price">Price: ${item.price.toFixed(2)}</p>
+            <div class="amount-container">
             <button data-id="${item.id}" onclick="amountIncreased(${item.id})" class="amount-increase"><</button>
-            <p>${item.amount}</p>
+            <p id="amount">${item.amount}</p>
             <button data-id="${item.id}" onclick="amountDecreased(${item.id})" class="amount-decrease">></button>
-            <button data-id="${item.id}" onclick="removeItemFromBasket(${item.id})" class="remove-item">Remove</button>
+            </div>
+            <button data-id="${item.id}" onclick="removeItemFromBasket(${item.id})" class="remove-item">Slet</button>
         `;
         itemsInBasket.appendChild(basketItem);
 
