@@ -4,37 +4,37 @@ let categoryList = []
 
 let myCategoryData = [
     {
-        name: 'fashion',
+        name: 'Fashion',
         categories: [],
         KeyWords: ['woman', 'womens', 'dresses', 'man', 'mens', "sunglasses", "tops"]
     },
     {
-        name: 'pleje',
+        name: 'Pleje',
         categories: [],
         KeyWords: ['beauty', "fragrances", "skin-care"]
     },
     {
-        name: 'electronics',
+        name: 'Electronics',
         categories: [],
         KeyWords: ['phone', 'laptop', 'mobile', 'tablets']
     },
     {
-        name: 'altTilHjemmet',
+        name: 'Alt til hjemmet',
         categories: [],
         KeyWords: ["furniture", "home-decoration", "kitchen-accessories"]
     },
     {
-        name: 'sport',
+        name: 'Sport',
         categories: [],
         KeyWords: ["sport"]
     },
     {
-        name: 'transport',
+        name: 'Transport',
         categories: [],
         KeyWords: ["motorcycle", "vehicle"]
     },
     {
-        name: 'dagligvare',
+        name: 'Dagligvare',
         categories: [],
         KeyWords: ['groceries']
     },
@@ -107,6 +107,37 @@ function getCategories() {
             errorData();
         });
 }
+
+function fetchCategory(category) {
+    console.log(`https://dummyjson.com/products/category/${category}`);
+    
+    fetch(`https://dummyjson.com/products/category/${category}`)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Error: Fejlede I at hente kategorier!');
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            // Tjekker om resonsen er I det rigtige format
+            if (typeof data === 'object') {
+                singleCategoryReceived(data);
+            } else {
+                throw new Error('Error: Forkert data format');
+            }
+        })
+        .catch(function (error) {
+            console.error(error.message);
+            errorData();
+        });
+}
+
+
+
+function singleCategoryReceived(data) {
+    bygCategoryPage(data.products)
+}
+
 
 function receivedCategories(categories) {
     sortIntocategories()
@@ -254,15 +285,15 @@ function checkCategory(myCategory, checkArray) {
 
 function buildCategories() {
         let categoryHTML = ''
-    myCategoryData.forEach((category) => {
+    myCategoryData.forEach((category, index) => {
          categoryHTML  += `
         <ul class="category navCategories">
         <li class="nav-item">
             <p>${category.name}</p>
-            <ul class="dropdown"><p>`
+            <ul class="dropdown"><p ">`
 
             category.categories.forEach((cat) => {
-                categoryHTML += `<li>${cat}</li>`
+                categoryHTML += `<li onclick="fetchCategory('${cat}')">${cat}</li>`
             })
 
             categoryHTML += `</p></ul>
@@ -276,9 +307,29 @@ function buildCategories() {
 
 }
 
+function bygCategoryPage(products) {
+    mainContent.innerHTML = ''
+    let categoryHTML = '<div class="product-section">'
+    products.forEach((product) => {
+        categoryHTML += `
+        <div class="product">
+            <img src="${product.thumbnail}" alt="${product.title}">
+            <div>
+            <h2>${product.title}</h2>
+            <p>${product.price}$</p>
+            </div>
+            <button onclick="productCallback(${product.id})">Læs mere</button>
+        </div>`
+    })
+    categoryHTML += '</div>'
+       mainContent.innerHTML = categoryHTML
+        
+}
+
+
+
 function bygBasketPage() {
     let total = 0
-    console.log(basket);
 
     mainContent.innerHTML = ''
     basketHTML = `
