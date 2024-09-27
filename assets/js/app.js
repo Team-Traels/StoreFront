@@ -132,6 +132,43 @@ function fetchCategory(category) {
         });
 }
 
+function fetchSearch(search) {
+    fetch(`https://dummyjson.com/products/search?q=${search}`)
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Error: Fejlede I at hente kategorier!');
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            // Tjekker om resonsen er I det rigtige format
+            if (typeof data === 'object') {
+                searchReceived(data);
+            } else {
+                throw new Error('Error: Forkert data format');
+            }
+        })
+        .catch(function (error) {
+            console.error(error.message);
+            errorData();
+        });
+}
+
+// console.log(fetchSearch('phones'));
+
+function searchReceived(data) {
+    console.log(data);
+    if(data.products.length == 0) {
+        mainContent.innerHTML = '<h1>Vi har desværre ikke det du søger!</h1>'
+    } else {
+    bygCategoryPage(data.products)
+    }
+}
+
+// console.log(fetchCategory('phones'));
+
+
+
 
 
 function singleCategoryReceived(data) {
@@ -168,26 +205,24 @@ const mainContent = document.getElementById('content')
 const basketContainer = document.getElementById('basket-section')
 const basketIndicator = document.getElementById('indicator-number')
 const myCategoryContainer = document.getElementById('navCategories')
+const searchInput = document.getElementById('search')
 
-let mainPageLoaded = true
-let basketPageLoaded = false
 let firstTimePageLoaded = false
 
 logoDocument.addEventListener('click', (e) => {
-    if (!mainPageLoaded) {
         buildMainPage()
-        mainPageLoaded = true;
-        basketPageLoaded = false;
+       
+})
+
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        fetchSearch(searchInput.value)
     }
 })
 
 basketContainer.addEventListener('click', (e) => {
-    if (!basketPageLoaded) {
         bygBasketPage()
-        basketPageLoaded = true;
-        mainPageLoaded = false;
-    }
-
+     
 })
 
 
@@ -238,8 +273,6 @@ function bygProductPage(productID) {
             </figcaption>
     </div>`
     mainContent.innerHTML = productHTML
-    mainPageLoaded = false
-    basketPageLoaded = false
 }
 
 function addToBasket(productID) {
@@ -355,8 +388,6 @@ function bygBasketPage() {
 
 
     mainContent.innerHTML = basketHTML
-    mainPageLoaded = false
-    basketPageLoaded = true
 
     const itemsInBasket = document.getElementById('basket-items');
 
