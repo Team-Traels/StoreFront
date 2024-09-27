@@ -1,5 +1,45 @@
 let basket = []
 let productsFromFetch = []
+let categoryList = []
+
+let myCategoryData = [
+    {
+        name: 'fashion',
+        categories: [],
+        KeyWords: ['woman', 'womens', 'dresses', 'man', 'mens', "sunglasses", "tops"]
+    },
+    {
+        name: 'pleje',
+        categories: [],
+        KeyWords: ['beauty', "fragrances", "skin-care"]
+    },
+    {
+        name: 'electronics',
+        categories: [],
+        KeyWords: ['phone', 'laptop', 'mobile', 'tablets']
+    },
+    {
+        name: 'altTilHjemmet',
+        categories: [],
+        KeyWords: ["furniture", "home-decoration", "kitchen-accessories"]
+    },
+    {
+        name: 'sport',
+        categories: [],
+        KeyWords: ["sport"]
+    },
+    {
+        name: 'transport',
+        categories: [],
+        KeyWords: ["motorcycle", "vehicle"]
+    },
+    {
+        name: 'dagligvare',
+        categories: [],
+        KeyWords: ['groceries']
+    },
+    
+]
 
 // FETCH LOCAL DATA
 function getLocalData() {
@@ -16,7 +56,7 @@ function getProducts() {
         .then(function (response) {
             // Tjekker om responsen er ok
             // console.log(response.json());
-            
+
             if (!response.ok) {
                 // Hvis ikke, giver en fejl
                 throw new Error('Error: Fejlede I at hente produkter');
@@ -44,6 +84,35 @@ function getProducts() {
         });
 }
 
+function getCategories() {
+    fetch('https://dummyjson.com/products/category-list')
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Error: Fejlede I at hente kategorier!');
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            // Tjekker om resonsen er I det rigtige format
+            if (Array.isArray(data)) {
+                categoryList = data
+                // sortIntocategories()
+                receivedCategories(data);
+            } else {
+                throw new Error('Error: Forkert data format');
+            }
+        })
+        .catch(function (error) {
+            console.error(error.message);
+            errorData();
+        });
+}
+
+function receivedCategories(categories) {
+    sortIntocategories()
+}
+
+
 function errorData() {
     console.log('Nej, vi har ikke hvad du skal bruge!');
 }
@@ -67,6 +136,7 @@ const logoDocument = document.getElementById('logo')
 const mainContent = document.getElementById('content')
 const basketContainer = document.getElementById('basket-section')
 const basketIndicator = document.getElementById('indicator-number')
+const myCategoryContainer = document.getElementById('navCategories')
 
 let mainPageLoaded = true
 let basketPageLoaded = false
@@ -95,7 +165,7 @@ function productCallback(productID) {
 }
 
 function buildMainPage(products) {
-    
+
     let randomNumber = Math.round(Math.random() * productsFromFetch.length)
     let featuredProduct = productsFromFetch[randomNumber]
     mainContent.innerHTML = ''
@@ -151,10 +221,65 @@ function addToBasket(productID) {
     saveLocalData()
 }
 
+function sortIntocategories() {
+
+    // looper gennem alle kategori navne
+    categoryList.forEach((myCatName) => {
+
+        let foundFlag = false
+        myCategoryData.forEach((mycategory, index) => {
+
+
+            if (!foundFlag && checkCategory(myCatName, myCategoryData[index].KeyWords)) {
+                mycategory.categories.push(myCatName)
+                foundFlag = true
+            }
+        })
+
+        if (!foundFlag) {
+            myCategoryData[myCategoryData.length - 1].categories.push(myCatName)
+        }
+    })
+
+    buildCategories()
+}
+
+function checkCategory(myCategory, checkArray) {
+
+    let found = checkArray.some((checkWord) => {
+        return myCategory.includes(checkWord)
+    })
+    return found
+}
+
+function buildCategories() {
+        let categoryHTML = ''
+    myCategoryData.forEach((category) => {
+         categoryHTML  += `
+        <ul class="category navCategories">
+        <li class="nav-item">
+            <p>${category.name}</p>
+            <ul class="dropdown"><p>`
+
+            category.categories.forEach((cat) => {
+                categoryHTML += `<li>${cat}</li>`
+            })
+
+            categoryHTML += `</p></ul>
+            </li>
+        </ul>`
+
+        myCategoryContainer.innerHTML = categoryHTML
+        })
+
+
+
+}
+
 function bygBasketPage() {
     let total = 0
     console.log(basket);
-    
+
     mainContent.innerHTML = ''
     basketHTML = `
      <div class="basket">
@@ -163,19 +288,18 @@ function bygBasketPage() {
         <h3>Total: ${basket.reduce((acc, item) => acc + item.price * item.amount, 0).toFixed(2)}$</h3>
         <button onclick="buy()">Køb</button>
         <button onclick="emptyBasket()">Tøm kurv</button>`
-        basket.forEach(item => {
-            console.log(`item.price: ${item.price}, item.amount: ${item.amount}`);
-            total += item.price * item.amount;
-        });
-        
-        
+    basket.forEach(item => {
+        total += item.price * item.amount;
+    });
+
+
     mainContent.innerHTML = basketHTML
     mainPageLoaded = false
     basketPageLoaded = true
 
     const itemsInBasket = document.getElementById('basket-items');
-    
-    
+
+
     let basketItems = basket.forEach(item => {
         const basketItem = document.createElement('div');
         basketItem.classList.add('basket-item');
@@ -189,7 +313,7 @@ function bygBasketPage() {
             <button data-id="${item.id}" onclick="removeItemFromBasket(${item.id})" class="remove-item">Remove</button>
         `;
         itemsInBasket.appendChild(basketItem);
-    
+
     })
 }
 
@@ -207,7 +331,7 @@ function amountIncreased(productID) {
 }
 
 function amountDecreased(productID) {
-    
+
     let product = basket.find(product => product.id == productID)
     product.amount--
     if (product.amount == 0) {
@@ -232,8 +356,10 @@ function basketIndicatorUpdate() {
     })
     basketIndicator.innerHTML = amount
 }
+
 // Køre funktionen når siden loader
 window.addEventListener('load', (e) => {
     getProducts();
     getLocalData();
+    getCategories();
 });

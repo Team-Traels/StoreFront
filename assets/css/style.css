@@ -37,56 +37,63 @@ a{
     background-color: #3D3D3D;
 }
 
-#header-bottom>ul {
-    color: white;
+#navCategories {
     list-style-type: none;
-    position: relative;
-    height: 40px;
+    margin: 0 4rem;
+    padding: 0;
     display: flex;
-    align-items: center;
-    padding: 0 1vw;
-    position: relative;
-    width: 100%;
     justify-content: space-between;
-    line-height: 40px;
-    margin-left: 5rem;
-    margin-right: 5rem;
+    width: 100%;
 }
 
-.header-bottom-menu {
+.nav-item {
+    position: relative;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-item > p {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    margin: 0; /* Ensure no extra margin is added */
+}
+
+.nav-item > p:hover {
+    background-color: #575757;
+}
+
+/* Dropdown menu styling */
+.dropdown {
     display: none;
     position: absolute;
-    top: 40px;
+    top: 100%;
     left: 0;
-    background-color: black;
-    flex-direction: column;
+    background-color: #333;
+    list-style-type: none;
     margin: 0;
-    white-space: nowrap;
     padding: 0;
+    min-width: 200px;
 }
 
-.header-bottom-menu li {
-    height: 40px;
-    background-color: black;
-    line-height: 40px;
-    text-align: left;
-    width: 100%;
-    display: block;
-    padding: 0 1vw;
+.dropdown li p {
     color: white;
-}
-
-.header-bottom-menu li:not(:first-child) {
-    border-top: white 1px solid;
-}
-
-
-.header-bottom-hover:hover .header-bottom-menu {
+    padding: 10px 20px;
+    text-decoration: none;
     display: block;
+    margin: 0; /* Ensure no extra margin is added */
 }
 
-.header-bottom-hover {
-    height: 100%;
+.dropdown li p:hover {
+    background-color: #575757;
+}
+
+/* Show the dropdown menu on hover */
+.nav-item:hover .dropdown {
+    display: block;
 }
 
 #logo {
